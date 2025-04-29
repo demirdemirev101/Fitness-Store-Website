@@ -1,0 +1,24 @@
+﻿@model List<ProductsViewModel>
+
+@{
+    ViewBag.Title = "All Products";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 18rem; margin: auto;">
+                <img src="@product.URL" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">
+                        Цена: <strong>@product.Price.ToString("0.00") лв.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
