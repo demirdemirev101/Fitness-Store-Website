@@ -1,5 +1,4 @@
-﻿
-namespace Fitness_Store_Website.Models
+﻿namespace Fitness_Store_Website.Models.Product
 {
     public class ProductsViewModel
     {

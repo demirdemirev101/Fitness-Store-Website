@@ -1,5 +1,7 @@
 ﻿using Fitness_Store_Website.Data;
 using Fitness_Store_Website.Models;
+using Fitness_Store_Website.Models.Category;
+using Fitness_Store_Website.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,32 +14,46 @@ namespace Fitness_Store_Website.Controllers
         {
             data = _data;
         }
-        public async Task<IActionResult> All(int? categoryId, string? sortByName, string? sortByPrice)
+        public async Task<IActionResult> All(int? categoryId, string? sortOption)
         {
             var productsQuery = data.Products.AsQueryable();
 
-            if (categoryId!=null)
+            if (categoryId.HasValue)
             {
                 productsQuery = productsQuery
                                 .Where(p => p.CategoryId == categoryId.Value);
             }
 
-            if (!string.IsNullOrEmpty(sortByName))
+            if (!string.IsNullOrEmpty(sortOption))
             {
-                productsQuery = sortByName == "asc"
-                    ? productsQuery.OrderBy(p => p.Name)
-                    : productsQuery.OrderByDescending(p => p.Name);
+                if (sortOption == "nameAsc")
+                {
+                    productsQuery = productsQuery.OrderBy(p => p.Name);
+                }
+                else if (sortOption == "nameDesc")
+                {
+                    productsQuery = productsQuery.OrderByDescending(p => p.Name);
+                }
+                else if (sortOption == "priceAsc")
+                {
+                    productsQuery = productsQuery.OrderBy(p => p.Price);
+                }
+                else if (sortOption == "priceDesc")
+                {
+                    productsQuery = productsQuery.OrderByDescending(p => p.Price);
+                }
             }
 
-            if (!string.IsNullOrEmpty(sortByPrice))
-            {
-                productsQuery = sortByPrice == "asc"
-                    ? productsQuery.OrderBy(p => p.Price)
-                    : productsQuery.OrderByDescending(p => p.Price);
-            }
+            var categories = await data.Categories
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
 
-            var allProducts = await productsQuery
-                         .Select(x => new ProductsViewModel
+            var products = await productsQuery
+                         .Select(x => new ProductsViewModel()
                          {
                              Name = x.Name,
                              Price = x.Price,
@@ -45,7 +61,15 @@ namespace Fitness_Store_Website.Controllers
                          })
                          .ToListAsync();
 
-            return View(allProducts);
+            var model = new AllProductsQueryModel()
+            {
+                CategoryId = categoryId,
+                SortOption = sortOption,
+                Categories = categories,
+                Products = products
+            };
+
+            return View(model);
         }
 
     }
