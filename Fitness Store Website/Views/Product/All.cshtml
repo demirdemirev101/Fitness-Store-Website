@@ -6,6 +6,29 @@
 
 <h2 class="text-center">@ViewBag.Title</h2>
 
+<form method="get" asp-action="All" class="form-inline mb-4">
+    <select name="categoryId" class="form-select me-2">
+        <option value="">Всички категории</option>
+        <option value="1">Добавки</option>
+        <option value="2">Дрехи</option>
+        <option value="3">Аксесоари</option>
+    </select>
+
+    <select name="sortByName" class="form-select me-2">
+        <option value="">Име</option>
+        <option value="asc">Име ↑</option>
+        <option value="desc">Име ↓</option>
+    </select>
+
+    <select name="sortByPrice" class="form-select me-2">
+        <option value="">Цена</option>
+        <option value="asc">Цена ↑</option>
+        <option value="desc">Цена ↓</option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Филтрирай</button>
+</form>
+
 <div class="row">
     @foreach (var product in Model)
     {
