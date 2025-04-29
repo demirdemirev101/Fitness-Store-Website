@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fitness_Store_Website.Data
 {
@@ -15,5 +16,9 @@ namespace Fitness_Store_Website.Data
 
         public decimal Price { get; set; }
         public required string URL { get; set; }
+
+        public int CategoryId {  get; set; }
+        [ForeignKey(nameof(CategoryId))]
+        public Category Category { get; set; }
     }
 }
