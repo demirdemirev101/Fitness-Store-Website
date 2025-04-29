@@ -14,7 +14,7 @@ namespace Fitness_Store_Website.Controllers
         {
             data = _data;
         }
-        public async Task<IActionResult> All(int? categoryId, string? sortOption)
+        public async Task<IActionResult> All(int? categoryId, string? sortOption, int currentPage = 1)
         {
             var productsQuery = data.Products.AsQueryable();
 
@@ -44,15 +44,12 @@ namespace Fitness_Store_Website.Controllers
                 }
             }
 
-            var categories = await data.Categories
-                .Select(c => new CategoryViewModel()
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
-                .ToListAsync();
+            int totalProducts = await productsQuery.CountAsync();
+
 
             var products = await productsQuery
+                         .Skip((currentPage-1)*6)
+                         .Take(6)
                          .Select(x => new ProductsViewModel()
                          {
                              Name = x.Name,
@@ -61,12 +58,25 @@ namespace Fitness_Store_Website.Controllers
                          })
                          .ToListAsync();
 
+
+            var categories = await data.Categories
+                .Select(c => new CategoryViewModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+
+
             var model = new AllProductsQueryModel()
             {
                 CategoryId = categoryId,
                 SortOption = sortOption,
                 Categories = categories,
-                Products = products
+                Products = products,
+                CurrentPage=currentPage,
+                ProductsPerPage=6,
+                TotalProductsCount=totalProducts
             };
 
             return View(model);
