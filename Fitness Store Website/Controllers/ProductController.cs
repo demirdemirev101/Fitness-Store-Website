@@ -52,6 +52,7 @@ namespace Fitness_Store_Website.Controllers
                          .Take(6)
                          .Select(x => new ProductsViewModel()
                          {
+                             Id = x.Id,
                              Name = x.Name,
                              Price = x.Price,
                              URL = x.URL
@@ -80,6 +81,29 @@ namespace Fitness_Store_Website.Controllers
             };
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var product= await data.Products
+                .Where(p => p.Id == id)
+                .Select(p=> new ProductDetailsModel()
+                {
+                    Id=p.Id,
+                    Name = p.Name,
+                    Description=p.Description,
+                    Price=p.Price,
+                    URL = p.URL,
+                    Category=p.Category.Name
+                })
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
         }
 
     }

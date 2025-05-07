@@ -1,0 +1,21 @@
+﻿@model ProductDetailsModel
+
+@{
+    ViewBag.Title = "Продукт: " + Model.Name;
+}
+
+<h2 class="text-center">@Model.Name</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mb-3">
+            <img src="@Model.URL" class="card-img-top" alt="@Model.Name" style="height: 300px; object-fit: cover;" />
+            <div class="card-body">
+                <h4 class="card-title">@Model.Name</h4>
+                <p class="card-text"><strong>Категория:</strong> @Model.Category</p>
+                <p class="card-text"><strong>Описание:</strong> @Model.Description</p>
+                <p class="card-text"><strong>Цена:</strong> @Model.Price.ToString("0.00") лв.</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@model BecomeAdminViewModel
+
+@{
+    ViewBag.Title = "Стани админ";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<form method="post" class="w-50 mx-auto">
+    <div class="form-group mb-3">
+        <label asp-for="PhoneNumber" class="form-label">Телефонен номер</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-warning w-100">Ставай админ</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

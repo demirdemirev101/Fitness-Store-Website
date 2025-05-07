@@ -67,6 +67,7 @@
                     <p class="card-text">
                         Цена: <strong>@product.Price.ToString("0.00") лв.</strong>
                     </p>
+                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary mt-2">Виж детайли</a>
                 </div>
             </div>
         </div>

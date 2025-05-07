@@ -25,7 +25,9 @@ namespace Fitness_Store_Website
                 options.Password.RequireLowercase=false;
                 options.Password.RequireDigit=false;
 
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            })
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
             
             builder.Services.AddControllersWithViews();
 
