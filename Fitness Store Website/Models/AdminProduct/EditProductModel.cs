@@ -1,9 +1,10 @@
 ﻿using Fitness_Store_Website.Data;
+using Fitness_Store_Website.Models.Category;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fitness_Store_Website.Models.Product
+namespace Fitness_Store_Website.Models.AdminProduct
 {
-    public class ProductCreatingModel
+    public class EditProductModel
     {
         public int Id { get; set; }
         [StringLength(Constants.productNameLength)]
