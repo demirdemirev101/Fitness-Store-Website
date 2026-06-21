@@ -12,6 +12,31 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
+/* Standardize button sizes and styles across the app */
+.btn {
+  padding: 0.45rem 0.9rem;
+  min-height: 40px;
+  min-width: 96px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Action colors */
+.btn-primary { background: linear-gradient(90deg,#0b3b6f,#2563eb); color:#fff; border: none; }
+.btn-success { background: linear-gradient(90deg,#059669,#10b981); color:#fff; border: none; }
+.btn-warning { background: linear-gradient(90deg,#f59e0b,#f97316); color:#fff; border: none; }
+.btn-danger { background: linear-gradient(90deg,#ef4444,#dc2626); color:#fff; border: none; }
+.btn-outline { background: transparent; border:1px solid rgba(0,0,0,0.08); color: inherit; }
+
+/* small variant keeps same height but reduced padding */
+.btn-sm { padding: 0.25rem 0.6rem; min-width:72px; min-height:34px; }
+
+/* Ensure product images keep aspect and show placeholder nicely */
+.card-img-top { width:100%; height:220px; object-fit:cover; background:#f8f9fa; }
+
 html {
   position: relative;
   min-height: 100%;
@@ -19,4 +44,131 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* Custom theme - only for non-admin pages */
+body:not(.admin-panel) {
+  background: linear-gradient(180deg, #0f172a 0%, #0b3b6f 60%);
+  color: #eef6ff;
+  padding-top: 0; /* ensure navbar sits at the very top */
+}
+
+.container {
+  /* keep container text color light for dark background areas */
+}
+
+/* Navbar styling: white rectangular with shadow (non-admin) */
+body:not(.admin-panel) .navbar {
+  background: white !important;
+  border-radius: 0 !important;
+  padding: 0.6rem 1rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+}
+
+body:not(.admin-panel) .navbar .navbar-brand,
+body:not(.admin-panel) .navbar .nav-link {
+  color: #0b3b6f !important;
+  font-weight: 600;
+}
+
+/* navbar logo sizing */
+.navbar-logo { height:36px; width:auto; display:block; }
+/* make logo container fit and align with navbar height */
+/* make brand area a fixed box and let the logo image cover it */
+.navbar-brand { display:block; padding:0; width:260px; height:72px; }
+.navbar { min-height: 72px; }
+.navbar-logo { width:100%; height:100%; object-fit:cover; display:block; }
+.site-title { color: #ffffff; font-weight:800; font-size:1.35rem; line-height:1; margin-left:12px; vertical-align:middle; }
+
+/* on small screens shrink logo */
+@media (max-width: 576px) {
+  .navbar-brand { width:180px; height:56px; }
+  .navbar-logo { height:56px; }
+  .site-title { font-size:1rem; }
+}
+
+/* Cart button (non-admin) */
+body:not(.admin-panel) .btn-cart {
+  background: linear-gradient(90deg,#0b3b6f,#2563eb);
+  color: white;
+  border-radius: 0 !important;
+  padding: 0.45rem 0.9rem;
+  box-shadow: 0 6px 12px rgba(7,29,66,0.4);
+}
+
+body:not(.admin-panel) .btn-cart:hover {
+  transform: translateY(-2px);
+  transition: all 0.15s ease-in-out;
+}
+
+/* Card tweaks (non-admin) */
+body:not(.admin-panel) .card {
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  color: #0b3b6f; /* dark text on white card */
+}
+
+/* Ensure card images have consistent height and fallback appearance (non-admin) */
+body:not(.admin-panel) .card-img-top {
+  height: 220px;
+  object-fit: cover;
+  background: #f8f9fa;
+}
+
+/* Filters sidebar styling (non-admin) */
+body:not(.admin-panel) .card.p-3 {
+  background: rgba(255,255,255,0.95);
+  color: #0b3b6f;
+}
+
+body:not(.admin-panel) .form-control, body:not(.admin-panel) .form-select {
+  border-radius: 4px;
+}
+
+/* Product card tweaks (non-admin) */
+body:not(.admin-panel) .card.h-100 {
+  border-radius: 8px;
+}
+
+body:not(.admin-panel) .pagination .page-link {
+  background: white;
+  color: #0b3b6f;
+}
+
+body:not(.admin-panel) .card .card-body .btn-outline-primary {
+  border-radius: 4px;
+}
+
+/* Cart badge (non-admin) */
+body:not(.admin-panel) .cart-badge {
+  top: -6px;
+  right: -8px;
+  font-size: 0.7rem;
+}
+
+/* Hover overlay on product image (non-admin) */
+body:not(.admin-panel) .card .img-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+body:not(.admin-panel) .card:hover .img-overlay { opacity: 1; }
+body:not(.admin-panel) .img-overlay .btn { opacity: 0.95; }
+
+/* Hero tweaks (non-admin) */
+body:not(.admin-panel) .bg-light {
+  background: rgba(255,255,255,0.06) !important;
+}
+
+/* Footer text (non-admin) */
+body:not(.admin-panel) .footer {
+  color: rgba(255,255,255,0.7);
 }

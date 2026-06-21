@@ -2,11 +2,12 @@
 @model EditProductModel
 @{
     ViewBag.Title = "Редактирай продукта.";
+    Layout = "_AdminLayout";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 
-<form asp-controller="AdminProduct" asp-action="Edit" method="post" class="w-50 mx-auto" novalidate>
+<form asp-controller="AdminProduct" asp-action="Edit" method="post" class="w-50 mx-auto" novalidate enctype="multipart/form-data">
     <div class="form-group mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" />
@@ -28,6 +29,10 @@
     <div class="form-group mb-3">
         <label asp-for="URL" class="form-label">Image URL</label>
         <input asp-for="URL" class="form-control" />
+        <div class="mt-2">
+            <label class="form-label">Or upload image</label>
+            <input asp-for="ImageFile" type="file" class="form-control" />
+        </div>
         <span asp-validation-for="URL" class="text-danger"></span>
     </div>
 

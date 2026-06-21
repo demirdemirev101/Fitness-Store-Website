@@ -2,31 +2,60 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+@{
+    var controller = Context.Request.RouteValues["controller"]?.ToString() ?? string.Empty;
+    var isAdminArea = controller.StartsWith("Admin", StringComparison.OrdinalIgnoreCase);
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var currentUser = await UserManager.GetUserAsync(User);
+    var displayName = currentUser?.UserName ?? User.Identity?.Name ?? "User";
+    if (displayName.Contains("@")) displayName = displayName.Split('@')[0];
+
+    if (isAdminArea)
     {
-        @if (!User.IsInRole("Admin"))
-        {
-            <li class="nav-item">
-                <a asp-controller="Users" asp-action="BecomeAdmin" class="nav-link btn btn-link text-dark">Become Admin</a>
-            </li>
-        }
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        <div class="admin-login d-flex align-items-center">
+            @if (!User.IsInRole("Admin"))
+            {
+                <a asp-controller="Users" asp-action="BecomeAdmin" class="btn btn-sm btn-link text-white me-2">Become Admin</a>
+            }
+
+            <a class="admin-user text-white me-3" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @displayName</a>
+
+            <form class="d-inline" asp-area="Identity" asp-page="/Account/Logout" method="post" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="btn btn-sm btn-logout">Logout</button>
             </form>
-        </li>
+        </div>
     }
     else
     {
+        <ul class="navbar-nav">
+            @if (!User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a asp-controller="Users" asp-action="BecomeAdmin" class="nav-link btn btn-link text-dark">Become Admin</a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @displayName</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
-    }
-</ul>
+    </ul>
+}

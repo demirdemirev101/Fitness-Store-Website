@@ -14,7 +14,12 @@
                 <h4 class="card-title">@Model.Name</h4>
                 <p class="card-text"><strong>Категория:</strong> @Model.Category</p>
                 <p class="card-text"><strong>Описание:</strong> @Model.Description</p>
-                <p class="card-text"><strong>Цена:</strong> @Model.Price.ToString("0.00") лв.</p>
+                <p class="card-text"><strong>Цена:</strong> @Model.Price.ToString("0.00") €</p>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <input type="number" name="quantity" value="1" min="1" style="width:70px;" />
+                    <button class="btn btn-success ms-2">Add to Cart</button>
+                </form>
             </div>
         </div>
     </div>

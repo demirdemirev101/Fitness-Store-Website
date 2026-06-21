@@ -1,0 +1,43 @@
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - Admin</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+  </head>
+  <body class="admin-panel">
+    <div class="admin-header">
+      <div class="container-fluid d-flex align-items-center justify-content-between">
+        <div class="admin-brand">Fitness Admin</div>
+        <div>
+          <partial name="_LoginPartial" />
+        </div>
+      </div>
+    </div>
+
+    @{ var current = Context.Request.RouteValues["controller"]?.ToString() ?? ""; }
+    <div class="admin-sidebar">
+      <ul class="admin-nav">
+        <li><a class="@(current=="AdminProduct"?"active":"")" href="@Url.Action("Index", "AdminProduct")">Products</a></li>
+        <li><a class="@(current=="AdminOrder"?"active":"")" href="@Url.Action("Index", "AdminOrder")">Orders</a></li>
+      </ul>
+    </div>
+
+    <div class="admin-main">
+      <div class="container-fluid">
+        @RenderBody()
+      </div>
+    </div>
+
+    <footer class="admin-footer">
+      <div class="container-fluid">© @DateTime.Now.Year Fitness Store</div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+  </body>
+</html>

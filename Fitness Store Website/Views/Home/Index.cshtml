@@ -1,8 +1,74 @@
 ﻿
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<div class="py-5 bg-light rounded-3">
+    <div class="container text-center">
+        <h1 class="display-4">Welcome to Fitness Store</h1>
+        <p class="lead">Premium fitness equipment to help you reach your goals. Fast shipping, great prices.</p>
+        <p>
+            <a class="btn btn-primary btn-lg me-2" asp-controller="Product" asp-action="All">Shop Now</a>
+            <a class="btn btn-outline-secondary btn-lg" asp-controller="Cart" asp-action="Index">View Cart</a>
+        </p>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <h3>Featured Products</h3>
+    <div class="row" id="featured-products">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div style="height:220px; overflow:hidden;">
+                    <img src="/images/placeholder1.jpg" class="w-100" alt="Product 1" style="height:220px;object-fit:cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Premium Dumbbells</h5>
+                    <p class="card-text">Durable cast iron dumbbells for home training.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Product" asp-action="All">View</a>
+                        </div>
+                        <small class="text-muted">From €29.99</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div style="height:220px; overflow:hidden;">
+                    <img src="/images/placeholder2.jpg" class="w-100" alt="Product 2" style="height:220px;object-fit:cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Treadmill X100</h5>
+                    <p class="card-text">Smooth motor and multi-speed programs for cardio.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Product" asp-action="All">View</a>
+                        </div>
+                        <small class="text-muted">From €499.00</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div style="height:220px; overflow:hidden;">
+                    <img src="/images/placeholder3.jpg" class="w-100" alt="Product 3" style="height:220px;object-fit:cover;" />
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Yoga Mat Pro</h5>
+                    <p class="card-text">Non-slip mat with extra cushioning.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a class="btn btn-sm btn-outline-secondary" asp-controller="Product" asp-action="All">View</a>
+                        </div>
+                        <small class="text-muted">From €19.99</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

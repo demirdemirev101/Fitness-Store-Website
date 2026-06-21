@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Fitness_Store_Website.Models.Cart
+@using Fitness_Store_Website.Infrastructure
+@{
+    var cart = Context.Session.GetObject<CartViewModel>("Cart") ?? new CartViewModel();
+    var cartCount = cart?.Items?.Sum(i => i.Quantity) ?? 0;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,10 +15,13 @@
     <link rel="stylesheet" href="~/Fitness_Store_Website.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
+    <header class="pb-3">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Fitness_Store_Website</a>
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logo.png" alt="Babanka Products" class="navbar-logo" />
+                    <span class="ms-2 d-none d-md-inline site-title">Babanka Products</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -33,11 +42,17 @@
                         }
                     </ul>
                     <partial name="_LoginPartial" />
+                    <a class="btn btn-cart ms-3 position-relative" asp-controller="Cart" asp-action="Index">Cart
+                        @if (cartCount > 0)
+                        {
+                            <span class="badge bg-danger position-absolute cart-badge">@cartCount</span>
+                        }
+                    </a>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container mt-4">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

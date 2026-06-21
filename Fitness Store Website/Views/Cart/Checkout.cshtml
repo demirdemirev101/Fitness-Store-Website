@@ -1,0 +1,50 @@
+@model Fitness_Store_Website.Models.Cart.CartViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+@if (!Model.Items.Any())
+{
+    <p>Your cart is empty.</p>
+    <a asp-action="Index" class="btn btn-primary">Back to Cart</a>
+}
+else
+{
+    <h4>Order Summary</h4>
+    <ul class="list-group mb-3">
+        @foreach (var item in Model.Items)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@item.Name</strong>
+                    <div class="text-muted">@item.Quantity x @item.Price.ToString("C")</div>
+                </div>
+                <span>@(item.Price * item.Quantity).ToString("C")</span>
+            </li>
+        }
+        <li class="list-group-item d-flex justify-content-between">
+            <strong>Total</strong>
+            <strong>@Model.Total.ToString("C")</strong>
+        </li>
+    </ul>
+
+    <h4>Payment Method</h4>
+    <form asp-action="Pay" method="post">
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="card" value="Card" checked />
+                <label class="form-check-label" for="card">Pay with Card</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="cash" value="Cash" />
+                <label class="form-check-label" for="cash">Pay on Delivery (Cash)</label>
+            </div>
+        </div>
+
+        <button class="btn btn-success">Pay Now</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Back to Cart</a>
+    </form>
+}

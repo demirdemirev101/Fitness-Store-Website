@@ -80,6 +80,11 @@ namespace Fitness_Store_Website.Controllers
                 TotalProductsCount=totalProducts
             };
 
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_ProductGrid", model);
+            }
+
             return View(model);
         }
 

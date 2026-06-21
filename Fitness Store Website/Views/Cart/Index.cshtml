@@ -1,0 +1,63 @@
+@model Fitness_Store_Website.Models.Cart.CartViewModel
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h2>Shopping Cart</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@if (!Model.Items.Any())
+{
+    <p>Your cart is empty. Browse <a asp-controller="Product" asp-action="All">products</a>.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><img src="@item.URL" alt="@item.Name" style="height:60px;"/></td>
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" style="width:70px;" />
+                            <button class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td>@(item.Price * item.Quantity).ToString("C")</td>
+                    <td>
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button class="btn btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end">
+        <div class="me-3">
+            <strong>Total: </strong> @Model.Total.ToString("C")
+        </div>
+        <a asp-action="Checkout" class="btn btn-success">Proceed to Checkout</a>
+    </div>
+}

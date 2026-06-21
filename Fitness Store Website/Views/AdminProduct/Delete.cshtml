@@ -1,0 +1,25 @@
+@model Fitness_Store_Website.Models.AdminProduct.ProductCreatingModel
+
+@{
+    ViewBag.Title = "Delete Product";
+    Layout = "_AdminLayout";
+}
+
+<h2 class="text-center">Delete Product</h2>
+
+<div class="card w-50 mx-auto">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Model.Description</p>
+        <p><strong>Price:</strong> @Model.Price.ToString("0.00") €</p>
+        @if (!string.IsNullOrEmpty(Model.URL))
+        {
+            <img src="@Model.URL" alt="@Model.Name" style="max-width:200px;" />
+        }
+        <form asp-action="DeleteConfirmed" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn btn-danger">Confirm Delete</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</div>

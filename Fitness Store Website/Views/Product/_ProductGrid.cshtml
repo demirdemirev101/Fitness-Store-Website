@@ -1,0 +1,27 @@
+@model Fitness_Store_Website.Models.Product.AllProductsQueryModel
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm position-relative">
+                <img src="@(string.IsNullOrEmpty(product.URL) ? "/images/placeholder.svg" : product.URL)" class="card-img-top img-fluid" alt="@product.Name" onerror="this.src='/images/placeholder.svg'" />
+                <div class="img-overlay">
+                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary">View</a>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text mb-2">Цена: <strong>@product.Price.ToString("0.00") €</strong></p>
+                    <div class="mt-auto d-flex align-items-center justify-content-between">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">Виж детайли</a>
+                        <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex align-items-center">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm me-2" style="width:80px;" />
+                            <button class="btn btn-sm btn-success">Add</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,46 @@
+@model List<Fitness_Store_Website.Models.AdminProduct.ProductCreatingModel>
+
+@{
+    ViewBag.Title = "Admin - Products";
+    Layout = "_AdminLayout";
+}
+
+<h2 class="text-center">Products</h2>
+
+<p class="text-end mb-3">
+    <a asp-action="Add" class="btn btn-primary">Add Product</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th></th>
+            <th>Price</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Id</td>
+                <td>@p.Name</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(p.URL))
+                    {
+                        <img src="@p.URL" style="height:48px; object-fit:cover;" />
+                    }
+                </td>
+                <td>@p.Price.ToString("0.00") €</td>
+                <td>@p.Category</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn-edit" title="Edit">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@p.Id" class="btn-delete ms-2" title="Delete">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

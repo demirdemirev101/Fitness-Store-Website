@@ -16,6 +16,54 @@ namespace Fitness_Store_Website.Controllers
             data = _data;
         }
         [HttpGet]
+        public IActionResult Index()
+        {
+            var products = data.Products
+                .Select(p => new Models.AdminProduct.ProductCreatingModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Price = p.Price,
+                    URL = p.URL,
+                    Category = p.CategoryId
+                })
+                .ToList();
+
+            return View(products);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await data.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            var model = new Models.AdminProduct.ProductCreatingModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                URL = product.URL,
+                Category = product.CategoryId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var product = await data.Products.FindAsync(id);
+            if (product == null) return NotFound();
+
+            data.Products.Remove(product);
+            await data.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
         public IActionResult Add()
         {
             ViewBag.Categories = data.Categories
@@ -34,6 +82,20 @@ namespace Fitness_Store_Website.Controllers
             if (!ModelState.IsValid)
             {
                 return View(productModel);
+            }
+
+            // handle uploaded image
+            if (productModel.ImageFile != null && productModel.ImageFile.Length > 0)
+            {
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                if (!Directory.Exists(imagesPath)) Directory.CreateDirectory(imagesPath);
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(productModel.ImageFile.FileName);
+                var filePath = Path.Combine(imagesPath, fileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await productModel.ImageFile.CopyToAsync(stream);
+                }
+                productModel.URL = "/images/" + fileName;
             }
 
             var product = new Product()
@@ -98,7 +160,23 @@ namespace Fitness_Store_Website.Controllers
             product.Name = model.Name;
             product.Description = model.Description;
             product.Price = model.Price;
-            product.URL = model.URL;
+            // handle uploaded image
+            if (model.ImageFile != null && model.ImageFile.Length > 0)
+            {
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
+                if (!Directory.Exists(imagesPath)) Directory.CreateDirectory(imagesPath);
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
+                var filePath = Path.Combine(imagesPath, fileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ImageFile.CopyToAsync(stream);
+                }
+                product.URL = "/images/" + fileName;
+            }
+            else
+            {
+                product.URL = model.URL;
+            }
             product.CategoryId = model.Category;
 
             await data.SaveChangesAsync();

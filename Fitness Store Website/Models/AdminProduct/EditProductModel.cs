@@ -16,6 +16,8 @@ namespace Fitness_Store_Website.Models.AdminProduct
         public decimal Price { get; set; }
         public required string URL { get; set; }
 
+        public IFormFile? ImageFile { get; set; }
+
         public required int Category { get; set; }
     }
 }
